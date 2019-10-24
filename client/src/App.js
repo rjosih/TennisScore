@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PlayersForm from './components/Form'
 import CustomButtonGroup from './tools/CustomButttonGroup'
 import FlashMessage from 'react-flash-message'
+import { Button } from 'react-bootstrap'
 
 import "./App.css";
 
@@ -15,10 +16,13 @@ class App extends Component {
             count: {player1: 0, player2: 0},
             showFlash: false,
             flashmessage: "",
-            playerNames: {player1: "", player2: ""}
+            playerNames: {player1: "", player2: ""},
+            gameOn: true,
+            winner: ''
         };
         this.setPlayerName = this.setPlayerName.bind(this);
         this.increment = this.increment.bind(this)
+        this.replay = this.replay.bind(this)
     }
 
     increment(value, player) {
@@ -32,19 +36,41 @@ class App extends Component {
         }
         let count = {...this.state.count, [player]: (this.state.count[player] + points)}
         let {player1, player2} = count
+        let player1Name = this.state.playerNames.player1
+        let player2Name = this.state.playerNames.player2
 
-        let showFlash = (player1 - player2 == 0 || Math.abs(player1 - player2) >= 3)
-        let winner = player1 > player2 ? "Player 1" : "Player 2"
-        let flashMessage = player1 - player2 == 0 ? "Douce" : `Advantages for ${winner}`
-        console.log("Show flash", showFlash, player1, player2)
-        this.setState({
-            count: count,
-            showFlash,
-            flashMessage
-        }, () => {
-            console.log("This .state. count", this.state.count)
-        });
+        if(Math.abs(player1-player2) >= 2 && (player1 >= 4 || player2 >= 4)) {
+            let winner = player1 > player2 ?  player1Name : player2Name
+            this.setState({
+                gameOn: false,
+                winner
+            })
+            return
+        } else {
+            let leadingScore = player1 > player2 ? player1 : player2
+            let showFlash = ((player1 - player2 == 0 || Math.abs(player1 - player2) >= 3) && leadingScore >= 3)
+            let advantagePlayer = player1 > player2 ? "Player 1" : "Player 2"
+            let flashMessage = player1 - player2 == 0 ? "Douce" : `Advantages for ${advantagePlayer}`
+
+            console.log("Show flash", showFlash, player1, player2)
+            
+            this.setState({
+                count: count,
+                showFlash,
+                flashMessage
+            });
+        }
     };
+
+    replay() {
+        this.setState({
+            playerNames: {player1: '', player2: ''},
+            count: { player1: 0, player2: 0},
+            showFlash: false,
+            flashMessage: '',
+            gameOn: true
+        })
+    }
 
     setPlayerName(name, player) {
         this.setState({
@@ -57,52 +83,61 @@ class App extends Component {
             <div className="App">
                 <header className="App-header">
                 </header>
-                <table>
-                    <tr>
-                        <td>
-                            {
-                                this.state.playerNames.player1.length == 0 && 
-                                <PlayersForm 
-                                setPlayerName={this.setPlayerName} 
-                                player={'player1'}
-                                playersEntered={this.state.playersEntered} 
-                            />
-                            }
-                           
-                        </td>
-                        <td>
-                            {
-                                this.state.playerNames.player2.length == 0 &&
-                                <PlayersForm 
+                {
+                    this.state.gameOn ? (<table>
+                        <tr>
+                            <td>
+                                {
+                                    this.state.playerNames.player1.length == 0 && 
+                                    <PlayersForm 
                                     setPlayerName={this.setPlayerName} 
-                                    player={'player2'}
+                                    player={'player1'}
                                     playersEntered={this.state.playersEntered} 
                                 />
+                                }
+                               
+                            </td>
+                            <td>
+                                {
+                                    this.state.playerNames.player2.length == 0 &&
+                                    <PlayersForm 
+                                        setPlayerName={this.setPlayerName} 
+                                        player={'player2'}
+                                        playersEntered={this.state.playersEntered} 
+                                    />
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><h1>Player 1</h1></th>
+                            <th><h1>Player 2</h1></th>
+                        </tr>
+                        <tr>
+                            <td>{this.state.playerNames.player1}</td>
+                            <td>{this.state.playerNames.player2}</td>
+                        </tr>
+                        <td>
+                            <h3>Score {this.state.count.player1}</h3>
+                            {this.state.playerNames.player1.length > 0 && this.state.playerNames.player2.length > 0 &&
+                                <CustomButtonGroup player={"player1"} increment={this.increment}/>
+                            }
+                            
+                        </td>
+                        <td>
+                            <h3>Score {this.state.count.player2}</h3>
+                            {this.state.playerNames.player2.length > 0 && this.state.playerNames.player1.length > 0 &&
+                            <CustomButtonGroup player={"player2"} increment={this.increment}/>
                             }
                         </td>
-                    </tr>
-                    <tr>
-                        <th><h1>Player 1</h1></th>
-                        <th><h1>Player 2</h1></th>
-                    </tr>
-                    <tr>
-                        <td>{this.state.playerNames.player1}</td>
-                        <td>{this.state.playerNames.player2}</td>
-                    </tr>
-                    <td>
-                        <h3>Score {this.state.count.player1}</h3>
-                        {this.state.playerNames.player1.length > 0 && this.state.playerNames.player2.length > 0 &&
-                            <CustomButtonGroup player={"player1"} increment={this.increment}/>
-                        }
-                        
-                    </td>
-                    <td>
-                        <h3>Score {this.state.count.player2}</h3>
-                        {this.state.playerNames.player2.length > 0 && this.state.playerNames.player1.length > 0 &&
-                        <CustomButtonGroup player={"player2"} increment={this.increment}/>
-                        }
-                    </td>
-                </table>
+                    </table>
+                    ) : (
+                        <div>
+                        <p>{this.state.winner} has won!</p>
+                        <Button onClick={this.replay}>Replay</Button>
+                        </div>
+                    )
+                }
+                
                 {
                     this.state.showFlash && <FlashMessage duration={5000} persistOnHover={true}>
                         <p>{this.state.flashMessage}</p>
