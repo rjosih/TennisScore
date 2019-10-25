@@ -9,9 +9,6 @@ var bodyParser = require('body-parser')
 
 mongoose.connect('mongodb://localhost/tennis')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var testAPIRouter = require("./routes/testAPI");
 var gameRouter = require("./routes/game")
 
 var app = express();
@@ -29,9 +26,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use("/testAPI", testAPIRouter);
 app.use("/games", gameRouter)
 
 // catch 404 and forward to error handler
