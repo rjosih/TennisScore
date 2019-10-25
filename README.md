@@ -48,6 +48,7 @@ I came up with that MongoDB was the easiest way to integrate with an existing ap
 The project should start at https://localhost/3000
 
 ## Archictecture
+![ArchitectureOfApplication](https://i.ibb.co/L8djgCy/Untitled-Diagram-2.png)
 
 ### Process 
 * User surfs into browser
