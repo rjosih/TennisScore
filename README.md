@@ -71,6 +71,7 @@ If I implement the authentication-function first it means that everyone has thei
 It is available to test the api-function in Postman.
 Copy paste localhost:9000/games with the GET and send. 
 It looks like this:
+
 ![TestInPostman](https://i.ibb.co/8xCQZHB/fetched.png)
 
 
