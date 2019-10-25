@@ -1,10 +1,10 @@
-import React, { Component } from "react";
+import React, { Component } from "react"
 
 
 class Form extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { value: '' };
+        this.state = { value: '' }
 
         this.handleChange = this.handleChange.bind(this);
         this.namePlayers = this.namePlayers.bind(this);
@@ -12,20 +12,19 @@ class Form extends React.Component {
     }
 
     handleChange(event) {
-        this.setState({ value: event.target.value });
+        this.setState({ value: event.target.value })
     }
 
     namePlayers(){
         this.props.setPlayerName(this.state.value, this.props.player)
     }
-
     render() {
         return (
             <div>
             <input type="text" value={this.state.value} onChange={this.handleChange} placeholder="Player name" />
-                <button type="button" onClick={this.namePlayers}>Save</button>
+                <button type="button" onClick={this.namePlayers}>Add</button>
             </div>
         );
     }
 }
-export default Form;
+export default Form

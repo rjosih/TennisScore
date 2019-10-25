@@ -26,3 +26,12 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.center {
+  margin: auto;
+  width: 60%;
+}
+
+.flash-message {
+  background-color: red;
+}
