@@ -36,13 +36,14 @@ I came up with that MongoDB was the easiest way to integrate with an existing ap
     * Open terminal (terminal 1) in chosen directory
     * "git clone https://github.com/rjosih/tennis-score.git"
     * "cd tennis-score"
-    * Open two more terminals
+    * Open two more terminals in the root directory
     * "cd api" in terminal 1 
      * "npm i" in terminal 1
      * "npm start" in terminal 1
      * "cd client" in terminal 2
      * "npm i" in terminal 2
      * "npm start" in terminal 2
+     * "cd .." in terminal 3
      * "mongodb" in terminal 3
 The project should start at https://localhost/3000
 
