@@ -33,5 +33,9 @@
 }
 
 .flash-message {
-  background-color: red;
+  background-color: lightgrey;
+  /* width: 400px; */
+  padding: 40px;
+  margin: 20px;
+  text-align: center;
 }

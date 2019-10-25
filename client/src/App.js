@@ -42,7 +42,7 @@ class App extends Component {
 
         if (Math.abs(player1 - player2) >= 2 && (player1 >= 4 || player2 >= 4)) {
             let winner = player1 > player2 ? player1Name : player2Name
-            let data = { 
+            let data = {
                 playerOneName: player1Name,
                 playerTwoName: player2Name,
                 playerOneScore: player1,
@@ -54,7 +54,7 @@ class App extends Component {
             })
             let response = await fetch('http://localhost:9000/games', {
                 method: 'POST',
-                headers: { 
+                headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify(data)
@@ -126,32 +126,36 @@ class App extends Component {
                                         }
                                     </td>
                                 </tr>
-                                </tbody>
-                                <tr>
-                                    <th><h1>Player 1</h1></th>
-                                    <th><h1>Player 2</h1></th>
-                                </tr>
-                                <tr>
-                                    <td>{this.state.playerNames.player1}</td>
-                                    <td>{this.state.playerNames.player2}</td>
-                                </tr>
-                                <td>
-                                    <h3>Score {this.state.count.player1}</h3>
-                                    {this.state.playerNames.player1.length > 0 && this.state.playerNames.player2.length > 0 &&
-                                        <CustomButtonGroup player={"player1"} increment={this.increment} />
-                                    }
+                            </tbody>
+                            <tr>
+                                <th><h1>Player 1</h1></th>
+                                <th><h1>Player 2</h1></th>
+                            </tr>
+                            <tr>
+                                <td>{this.state.playerNames.player1}</td>
+                                <td>{this.state.playerNames.player2}</td>
+                            </tr>
+                            <td>
+                                <h3>Score {this.state.count.player1}</h3>
+                                {this.state.playerNames.player1.length > 0 && this.state.playerNames.player2.length > 0 &&
+                                    <CustomButtonGroup player={"player1"} increment={this.increment} />
+                                }
 
-                                </td>
-                                <td>
-                                    <h3>Score {this.state.count.player2}</h3>
-                                    {this.state.playerNames.player2.length > 0 && this.state.playerNames.player1.length > 0 &&
-                                        <CustomButtonGroup player={"player2"} increment={this.increment} />
-                                    }
-                                </td>
+                            </td>
+                            <td>
+                                <h3>Score {this.state.count.player2}</h3>
+                                {this.state.playerNames.player2.length > 0 && this.state.playerNames.player1.length > 0 &&
+                                    <CustomButtonGroup player={"player2"} increment={this.increment} />
+                                }
+                            </td>
                         </table>
                     ) : (
                             <div>
+                                <Alert variant="success">
+                                    <Alert.Heading>
                                 <p>{this.state.winner} has won!</p>
+                                    </Alert.Heading>
+                                </Alert>
                                 <Button onClick={this.replay}>Replay</Button>
                             </div>
                         )
